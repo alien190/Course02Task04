@@ -19,6 +19,7 @@ public class RecycleFragment extends Fragment {
     private ImageButton mButtonAddText;
     private ImageButton mButtonAddImage;
     private RecyclerView mRecycle;
+    private SampleAdapter mSampleAdapter = new SampleAdapter();
 
     public static RecycleFragment newInstance() {
         return new RecycleFragment();
@@ -36,6 +37,7 @@ public class RecycleFragment extends Fragment {
         mButtonAddImage = view.findViewById(R.id.bt_add_image);
         mRecycle = view.findViewById(R.id.recycle);
         mRecycle.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        mRecycle.setAdapter(mSampleAdapter);
     }
 
     @Override

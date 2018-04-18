@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -16,11 +15,12 @@ import java.util.ArrayList;
 public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder> {
 
     private final int TEXT = 0;
-    private final int IMAGE = 0;
+    private final int IMAGE = 1;
 
-    ArrayList<Object> mContent = new ArrayList<Object>(){{
-        add(new TextObject("Первый элемент в списке"));
-        add(new ImageObject(R.drawable.ic_sample_image));
+    private ArrayList<Object> mContent = new ArrayList<Object>(){{
+        add(new TextObject("Это очень-очень длинный текст здесь для того что бы показать многострочное сообщение"));
+        add(new ImageObject(R.drawable.sample_image));
+        add(new TextObject("Кор. текст"));
         }};
 
     @Override
@@ -32,33 +32,44 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
         switch (viewType) {
             case TEXT: {
                 view = inflater.inflate(R.layout.li_text, parent, false);
-                viewHolder = new ViewHolderText(view);
+                viewHolder = new TextViewHolder(view);
                 break;
             }
 
             case IMAGE: {
                 view = inflater.inflate(R.layout.li_image, parent, false);
-                viewHolder = new ViewHolderImage(view);
+                viewHolder = new ImageViewHolder(view);
                 break;
             }
+            default: {
+                viewHolder = null;
+            }
         }
-
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        switch (getItemViewType(position)){
+            case TEXT:{
+                ((TextViewHolder)holder).bind((TextObject) mContent.get(position));
+                break;
+            }
+            case IMAGE:{
+                ((ImageViewHolder)holder).bind((ImageObject) mContent.get(position));
+                break;
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mContent.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mContent.get(position) instanceof TextView) return TEXT;
+        if (mContent.get(position) instanceof TextObject) return TEXT;
         else return IMAGE;
     }
 }
