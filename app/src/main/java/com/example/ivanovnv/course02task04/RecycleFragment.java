@@ -35,6 +35,10 @@ public class RecycleFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mButtonAddText = view.findViewById(R.id.bt_add_text);
         mButtonAddImage = view.findViewById(R.id.bt_add_image);
+
+        mSampleAdapter.setResourses(getResources().getStringArray(R.array.TextMessages),
+                                    getResources().getIntArray(R.array.Images));
+
         mRecycle = view.findViewById(R.id.recycle);
         mRecycle.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mRecycle.setAdapter(mSampleAdapter);

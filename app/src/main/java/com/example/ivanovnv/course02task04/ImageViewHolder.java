@@ -15,7 +15,6 @@ class ImageViewHolder extends BaseViewHolder {
 
     public ImageViewHolder(View itemView) {
         super(itemView);
-
         mImageView = itemView.findViewById(R.id.im_item);
     }
 

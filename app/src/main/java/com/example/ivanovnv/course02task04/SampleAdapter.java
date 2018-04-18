@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import java.util.Random;
+
 
 /**
  * Created by IvanovNV on 18.04.2018.
@@ -14,14 +16,28 @@ import java.util.ArrayList;
 
 public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder> {
 
-    private final int TEXT = 0;
-    private final int IMAGE = 1;
+    private final static int TEXT = 1;
+    private final static int IMAGE = 2;
+    private final static int ANY = 0;
 
-    private ArrayList<Object> mContent = new ArrayList<Object>(){{
-        add(new TextObject("Это очень-очень длинный текст здесь для того что бы показать многострочное сообщение"));
-        add(new ImageObject(R.drawable.sample_image));
-        add(new TextObject("Кор. текст"));
-        }};
+    private String[] mTextRes;
+    private int[] mImgRes;
+    Random mRandom = new Random();
+
+    private ArrayList<Object> mContent = new ArrayList<>();
+
+//            = new ArrayList<Object>(){{
+//        add(new TextObject("Это очень-очень длинный текст здесь для того что бы показать многострочное сообщение"));
+//        add(new ImageObject(R.drawable.sample_image));
+//        add(new TextObject("Короткий текст"));
+//        }};
+
+
+    public SampleAdapter() {
+        super();
+        mContent.add(generateRandomContentItem(TEXT));
+        mContent.add(generateRandomContentItem(IMAGE));
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -72,4 +88,41 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
         if (mContent.get(position) instanceof TextObject) return TEXT;
         else return IMAGE;
     }
+
+    private Object generateRandomContentItem(int typeOfContent){
+
+        Object retObject;
+
+            switch (typeOfContent) {
+                case TEXT: {
+                    retObject = new TextObject(mTextRes[mRandom.nextInt(mTextRes.length)]);
+                    break;
+                }
+
+                case IMAGE: {
+                    retObject = new ImageObject(mImgRes[mRandom.nextInt(mImgRes.length)]);
+                    break;
+                }
+
+                default: {
+                    int position = mRandom.nextInt(mImgRes.length + mTextRes.length);
+                    if(position >= mImgRes.length) {
+                        position -= mImgRes.length;
+                        retObject = new TextObject(mTextRes[position]);
+                    } else {
+                        retObject = new ImageObject(mImgRes[position]);
+                    }
+                    break;
+                }
+            }
+        return retObject;
+    }
+
+    public void setResourses(String[] strings, int[] ints){
+        mTextRes = strings;
+        mImgRes = ints;
+    }
+
+
+
 }

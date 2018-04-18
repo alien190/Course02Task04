@@ -1,6 +1,5 @@
 package com.example.ivanovnv.course02task04;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
