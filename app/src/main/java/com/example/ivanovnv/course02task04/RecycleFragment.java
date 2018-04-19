@@ -1,5 +1,6 @@
 package com.example.ivanovnv.course02task04;
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -36,8 +37,17 @@ public class RecycleFragment extends Fragment {
         mButtonAddText = view.findViewById(R.id.bt_add_text);
         mButtonAddImage = view.findViewById(R.id.bt_add_image);
 
-        mSampleAdapter.setResourses(getResources().getStringArray(R.array.TextMessages),
-                                    getResources().getIntArray(R.array.Images));
+        // get images id from resource array
+        TypedArray imgs = getResources().obtainTypedArray(R.array.Images);
+        int[] imgsId = new int[imgs.length()];
+            for (int i = 0; i < imgs.length(); i++) {
+                imgsId[i] = imgs.getResourceId(i, -1);
+            }
+        imgs.recycle();
+
+        mSampleAdapter.setResourses(getResources().getStringArray(R.array.TextMessages), imgsId);
+
+        mSampleAdapter.addInitialContent();
 
         mRecycle = view.findViewById(R.id.recycle);
         mRecycle.setLayoutManager(new LinearLayoutManager(view.getContext()));

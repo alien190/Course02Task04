@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="TextMessages">
+        <item>Все, что важно, не бывает срочно. Все, что срочно — только суета.</item>
+        <item>Смешон орущий в ярости, но страшен молчащий в обиде.</item>
+        <item>Пока ты говоришь совсем не то, что думаешь, слушаешь совсем не то, во что веришь, и делаешь совсем не то, к чему расположен — то всё это время и живёшь совсем не ты.</item>
+        <item>Мудрый не тот, кто много размышляет о великом, а тот, кто мало думает о мелочах.</item>
+        <item>Не огорчайся, когда тебя перестали замечать друзья. Огорчайся, когда перестали замечать враги.</item>
+        <item>Помогая ленивым людям, ты помогаешь им сесть на свою шею.</item>
+    </array>
+    <integer-array name="Images">
+        <item>@drawable/sample_image01</item>
+        <item>@drawable/sample_image02</item>
+        <item>@drawable/sample_image03</item>
+        <item>@drawable/sample_image04</item>
+        <item>@drawable/sample_image05</item>
+        <item>@drawable/sample_image06</item>
+    </integer-array>
+</resources>

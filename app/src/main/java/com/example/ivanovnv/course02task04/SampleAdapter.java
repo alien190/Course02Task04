@@ -33,10 +33,12 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
 //        }};
 
 
-    public SampleAdapter() {
-        super();
-        mContent.add(generateRandomContentItem(TEXT));
-        mContent.add(generateRandomContentItem(IMAGE));
+       public void addInitialContent() {
+        Object object = generateRandomContentItem(TEXT);
+        if (object != null) mContent.add(object);
+
+        object = generateRandomContentItem(IMAGE);
+        if (object != null) mContent.add(object);
     }
 
     @Override
@@ -91,26 +93,33 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
 
     private Object generateRandomContentItem(int typeOfContent){
 
-        Object retObject;
+        Object retObject = null;
 
             switch (typeOfContent) {
                 case TEXT: {
-                    retObject = new TextObject(mTextRes[mRandom.nextInt(mTextRes.length)]);
+                    if(mTextRes!= null) {
+                        retObject = new TextObject(mTextRes[mRandom.nextInt(mTextRes.length)]);
+                    }
+
                     break;
                 }
 
                 case IMAGE: {
-                    retObject = new ImageObject(mImgRes[mRandom.nextInt(mImgRes.length)]);
+                    if(mImgRes != null) {
+                        retObject = new ImageObject(mImgRes[mRandom.nextInt(mImgRes.length)]);
+                    }
                     break;
                 }
 
                 default: {
-                    int position = mRandom.nextInt(mImgRes.length + mTextRes.length);
-                    if(position >= mImgRes.length) {
-                        position -= mImgRes.length;
-                        retObject = new TextObject(mTextRes[position]);
-                    } else {
-                        retObject = new ImageObject(mImgRes[position]);
+                    if(mImgRes != null && mTextRes != null) {
+                        int position = mRandom.nextInt(mImgRes.length + mTextRes.length);
+                        if(position >= mImgRes.length) {
+                            position -= mImgRes.length;
+                            retObject = new TextObject(mTextRes[position]);
+                        } else {
+                            retObject = new ImageObject(mImgRes[position]);
+                        }
                     }
                     break;
                 }

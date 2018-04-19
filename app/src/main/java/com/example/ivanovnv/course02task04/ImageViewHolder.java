@@ -20,6 +20,13 @@ class ImageViewHolder extends BaseViewHolder {
 
     public void bind(final ImageObject imageObject){
         super.bind(imageObject);
-        mImageView.setImageDrawable(ContextCompat.getDrawable(itemView.getContext(), imageObject.getId()));
+        try {
+            mImageView.setImageDrawable(ContextCompat.getDrawable(itemView.getContext(), imageObject.getId()));
+        }
+        catch (Throwable t)
+        {
+            t.printStackTrace();
+            mImageView.setImageDrawable(null);
+        }
     }
 }
