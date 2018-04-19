@@ -3,4 +3,5 @@
     <dimen name="card_margin">8dp</dimen>
     <dimen name="card_margin_custom">80dp</dimen>
     <dimen name="padding">8dp</dimen>
+    <dimen name="btn_margin">25dp</dimen>
 </resources>
