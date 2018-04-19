@@ -9,21 +9,36 @@ import android.widget.TextView;
  * Created by IvanovNV on 18.04.2018.
  */
 
+/**
+ * Superclass for ViewColder's
+ */
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     private TextView mTextView;
     private ContentObject mContentObject;
 
+    /**
+     * constructor
+     * @param itemView - view
+     */
     public BaseViewHolder(View itemView) {
         super(itemView);
         mTextView = itemView.findViewById(R.id.tv_timestamp);
     }
 
+    /**
+     * bind to object
+     * @param object - object to bind
+     */
     public void bind(final ContentObject object){
         mTextView.setText(object.getTimeStamp());
         mContentObject = object;
     }
 
+    /**
+     * set listener for callbacks
+     * @param listener - listener
+     */
     public void setListener(final OnItemClickListener listener) {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,6 +48,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
+    /**
+     * interface for Item click listener
+     */
     interface OnItemClickListener {
         void onItemClick (ContentObject object);
     }

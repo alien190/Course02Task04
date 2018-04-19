@@ -3,7 +3,4 @@
     <string name="add_text">Add text</string>
     <string name="add_image">Add image</string>
     <string name="image">image</string>
-    <array name="StringItems">
-        <item>asdasdasda</item>
-    </array>
 </resources>

@@ -15,6 +15,9 @@ import android.widget.ImageButton;
  * Created by IvanovNV on 18.04.2018.
  */
 
+/**
+ * Fragment class with RecycleView
+ */
 public class RecycleFragment extends Fragment {
 
     private ImageButton mButtonAddText;
@@ -23,16 +26,32 @@ public class RecycleFragment extends Fragment {
     private SampleAdapter mSampleAdapter;
     private Singleton mSingleton;
 
+    /**
+     * return instance
+     * @return - instance
+     */
     public static RecycleFragment newInstance() {
         return new RecycleFragment();
     }
 
+    /**
+     * called when parent activity was created
+     * @param inflater - inflater
+     * @param container - container
+     * @param savedInstanceState - savedInstanceState
+     * @return - fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fr_recycle, container, false);
     }
 
+    /**
+     * called when View was created
+     * @param view - view
+     * @param savedInstanceState - savedInstanceState
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mButtonAddText = view.findViewById(R.id.bt_add_text);
@@ -61,6 +80,9 @@ public class RecycleFragment extends Fragment {
         mRecycle.setAdapter(mSampleAdapter);
     }
 
+    /**
+     * when started
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -84,6 +106,10 @@ public class RecycleFragment extends Fragment {
         });
     }
 
+
+    /**
+     * when stopped
+     */
     @Override
     public void onStop() {
         mButtonAddText.setOnClickListener(null);
@@ -92,6 +118,9 @@ public class RecycleFragment extends Fragment {
         super.onStop();
     }
 
+    /**
+     * when destroyed
+     */
     @Override
     public void onDestroy() {
         mButtonAddText = null;

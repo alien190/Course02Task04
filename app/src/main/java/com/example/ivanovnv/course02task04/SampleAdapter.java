@@ -16,6 +16,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by IvanovNV on 18.04.2018.
  */
 
+/**
+ * Sample Adapter class
+ */
 public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder> implements BaseViewHolder.OnItemClickListener {
 
     public final static int TEXT = 1;
@@ -29,13 +32,21 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
     private Lock mLock = new ReentrantLock();
     private boolean mIsInitialized = false;
 
-
+    /**
+     * initiate content by 2 items
+     */
     public void addInitialContent() {
         addItem(TEXT);
         addItem(IMAGE);
         mIsInitialized = true;
     }
 
+    /**
+     * create ViewHolder in case of type
+     * @param parent - parent View
+     * @param viewType - type of Item to create
+     * @return - created ViewHolder
+     */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -61,6 +72,12 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
         return viewHolder;
     }
 
+
+    /**
+     * Bind existing ViewHolder to object with data
+     * @param holder - existing holder
+     * @param position - position in list
+     */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)){
@@ -76,6 +93,10 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
         ((BaseViewHolder)holder).setListener(this);
     }
 
+    /**
+     * Return item count. We use Lock object for safe delete items
+     * @return - count of items
+     */
     @Override
     public int getItemCount() {
         int count = 0;
@@ -90,12 +111,22 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
         return count;
     }
 
+    /**
+     * return type of item in list on position
+     * @param position - position of item
+     * @return - type of item
+     */
     @Override
     public int getItemViewType(int position) {
         if (mContent.get(position) instanceof TextObject) return TEXT;
         else return IMAGE;
     }
 
+    /**
+     * Generate random content in case of type. Used for variety content/
+     * @param typeOfContent - type of content to generate
+     * @return - generated item
+     */
     private Object generateRandomContentItem(int typeOfContent){
 
         Object retObject = null;
@@ -132,6 +163,11 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
         return retObject;
     }
 
+    /**
+     * set resources for generate random content
+     * @param strings - array of strings for TextItem's
+     * @param ints - array of drawable.id for ImageItems's;
+     */
     public void setResources(String[] strings, int[] ints){
         if(mTextRes != null) {mTextRes = null;}
         mTextRes = strings;
@@ -140,6 +176,12 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
         mImgRes = ints;
     }
 
+
+    /**
+     * add item according to type
+     * @param itemType - type of item to add
+     * @return - result of add operation
+     */
     public boolean addItem (int itemType) {
 
         Object object = generateRandomContentItem(itemType);
@@ -151,7 +193,10 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
         return false;
     }
 
-
+    /**
+     * callback for onItemClick event of list items
+     * @param object - object, what item contains that
+     */
     @Override
     public void onItemClick(ContentObject object) {
 
@@ -170,6 +215,10 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
 
     }
 
+    /**
+     * return true if initial date was initialized
+     * @return - value
+     */
     public boolean isInitialized() {
         return mIsInitialized;
     }

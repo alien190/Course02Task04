@@ -6,10 +6,16 @@ import java.util.Calendar;
  * Created by IvanovNV on 18.04.2018.
  */
 
+/**
+ * Superclass for content object
+ */
 public class ContentObject {
 
     private String mTimeStamp;
 
+    /**
+     * constructor - generate timestamp
+     */
     public ContentObject() {
         Calendar rightNow= Calendar.getInstance();
         int hour = rightNow.get(Calendar.HOUR);
@@ -21,6 +27,10 @@ public class ContentObject {
                              + (sec < 10 ? "0" + sec : sec);
     }
 
+    /**
+     * return timestamp when object was generated
+     * @return - timestamp
+     */
     public String getTimeStamp() {
         return mTimeStamp;
     }
