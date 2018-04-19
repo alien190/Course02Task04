@@ -20,7 +20,8 @@ public class RecycleFragment extends Fragment {
     private ImageButton mButtonAddText;
     private ImageButton mButtonAddImage;
     private RecyclerView mRecycle;
-    private SampleAdapter mSampleAdapter = new SampleAdapter();
+    private SampleAdapter mSampleAdapter;
+    private Singleton mSingleton;
 
     public static RecycleFragment newInstance() {
         return new RecycleFragment();
@@ -37,17 +38,23 @@ public class RecycleFragment extends Fragment {
         mButtonAddText = view.findViewById(R.id.bt_add_text);
         mButtonAddImage = view.findViewById(R.id.bt_add_image);
 
-        // get images id from resource array
-        TypedArray imgs = getResources().obtainTypedArray(R.array.Images);
-        int[] imgsId = new int[imgs.length()];
+        mSingleton = Singleton.getInstance();
+        mSampleAdapter = mSingleton.getSampleAdapter();
+
+
+        if(!mSampleAdapter.isInitialized()) {
+            // get images id from resource array
+            TypedArray imgs = getResources().obtainTypedArray(R.array.Images);
+            int[] imgsId = new int[imgs.length()];
             for (int i = 0; i < imgs.length(); i++) {
                 imgsId[i] = imgs.getResourceId(i, -1);
             }
-        imgs.recycle();
+            imgs.recycle();
 
-        mSampleAdapter.setResourses(getResources().getStringArray(R.array.TextMessages), imgsId);
+            mSampleAdapter.setResources(getResources().getStringArray(R.array.TextMessages), imgsId);
 
-        mSampleAdapter.addInitialContent();
+            mSampleAdapter.addInitialContent();
+        }
 
         mRecycle = view.findViewById(R.id.recycle);
         mRecycle.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -61,14 +68,18 @@ public class RecycleFragment extends Fragment {
         mButtonAddText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (mSampleAdapter.addItem(SampleAdapter.TEXT)) {
+                    mRecycle.scrollToPosition(mSampleAdapter.getItemCount() - 1);
+                }
             }
         });
 
         mButtonAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (mSampleAdapter.addItem(SampleAdapter.IMAGE)) {
+                    mRecycle.scrollToPosition(mSampleAdapter.getItemCount() - 1);
+                }
             }
         });
     }
@@ -89,4 +100,6 @@ public class RecycleFragment extends Fragment {
 
         super.onDestroy();
     }
+
+
 }

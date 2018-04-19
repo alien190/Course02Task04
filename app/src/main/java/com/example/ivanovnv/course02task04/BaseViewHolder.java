@@ -12,6 +12,7 @@ import android.widget.TextView;
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     private TextView mTextView;
+    private ContentObject mContentObject;
 
     public BaseViewHolder(View itemView) {
         super(itemView);
@@ -20,5 +21,19 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(final ContentObject object){
         mTextView.setText(object.getTimeStamp());
+        mContentObject = object;
+    }
+
+    public void setListener(final OnItemClickListener listener) {
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(mContentObject);
+            }
+        });
+    }
+
+    interface OnItemClickListener {
+        void onItemClick (ContentObject object);
     }
 }

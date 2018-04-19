@@ -8,37 +8,32 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import java.util.Random;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
  * Created by IvanovNV on 18.04.2018.
  */
 
-public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder> {
+public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder> implements BaseViewHolder.OnItemClickListener {
 
-    private final static int TEXT = 1;
-    private final static int IMAGE = 2;
-    private final static int ANY = 0;
+    public final static int TEXT = 1;
+    public final static int IMAGE = 2;
 
-    private String[] mTextRes;
-    private int[] mImgRes;
-    Random mRandom = new Random();
+    private String[] mTextRes = null;
+    private int[] mImgRes = null;
+    private Random mRandom = new Random();
 
     private ArrayList<Object> mContent = new ArrayList<>();
-
-//            = new ArrayList<Object>(){{
-//        add(new TextObject("Это очень-очень длинный текст здесь для того что бы показать многострочное сообщение"));
-//        add(new ImageObject(R.drawable.sample_image));
-//        add(new TextObject("Короткий текст"));
-//        }};
+    private Lock mLock = new ReentrantLock();
+    private boolean mIsInitialized = false;
 
 
-       public void addInitialContent() {
-        Object object = generateRandomContentItem(TEXT);
-        if (object != null) mContent.add(object);
-
-        object = generateRandomContentItem(IMAGE);
-        if (object != null) mContent.add(object);
+    public void addInitialContent() {
+        addItem(TEXT);
+        addItem(IMAGE);
+        mIsInitialized = true;
     }
 
     @Override
@@ -78,11 +73,21 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
                 break;
             }
         }
+        ((BaseViewHolder)holder).setListener(this);
     }
 
     @Override
     public int getItemCount() {
-        return mContent.size();
+        int count = 0;
+        mLock.lock();
+        try {
+            count = mContent.size();
+        } catch (Throwable t) {
+            t.printStackTrace();
+        } finally {
+            mLock.unlock();
+        }
+        return count;
     }
 
     @Override
@@ -113,12 +118,12 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
 
                 default: {
                     if(mImgRes != null && mTextRes != null) {
-                        int position = mRandom.nextInt(mImgRes.length + mTextRes.length);
-                        if(position >= mImgRes.length) {
-                            position -= mImgRes.length;
-                            retObject = new TextObject(mTextRes[position]);
+                        int index = mRandom.nextInt(mImgRes.length + mTextRes.length);
+                        if(index >= mImgRes.length) {
+                            index -= mImgRes.length;
+                            retObject = new TextObject(mTextRes[index]);
                         } else {
-                            retObject = new ImageObject(mImgRes[position]);
+                            retObject = new ImageObject(mImgRes[index]);
                         }
                     }
                     break;
@@ -127,11 +132,45 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
         return retObject;
     }
 
-    public void setResourses(String[] strings, int[] ints){
+    public void setResources(String[] strings, int[] ints){
+        if(mTextRes != null) {mTextRes = null;}
         mTextRes = strings;
+
+        if(mImgRes != null) {mImgRes = null;}
         mImgRes = ints;
     }
 
+    public boolean addItem (int itemType) {
+
+        Object object = generateRandomContentItem(itemType);
+        if (object != null) {
+            mContent.add(object);
+            this.notifyItemInserted(mContent.size()-1);
+            return true;
+        }
+        return false;
+    }
 
 
+    @Override
+    public void onItemClick(ContentObject object) {
+
+        int index = mContent.indexOf(object);
+        if(index != -1) {
+            mLock.lock();
+            try {
+                mContent.remove(object);
+                this.notifyItemRemoved(index);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            } finally {
+                mLock.unlock();
+            }
+        }
+
+    }
+
+    public boolean isInitialized() {
+        return mIsInitialized;
+    }
 }
