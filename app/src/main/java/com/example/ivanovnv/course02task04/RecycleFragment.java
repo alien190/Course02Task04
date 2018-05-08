@@ -70,7 +70,14 @@ public class RecycleFragment extends Fragment {
             }
             imgs.recycle();
 
-            mSampleAdapter.setResources(getResources().getStringArray(R.array.TextMessages), imgsId);
+            TypedArray imgsBg = getResources().obtainTypedArray(R.array.BgImages);
+            int[] imgsBgId = new int[imgsBg.length()];
+            for (int i = 0; i < imgsBg.length(); i++) {
+                imgsBgId[i] = imgsBg.getResourceId(i, -1);
+            }
+            imgsBg.recycle();
+
+            mSampleAdapter.setResources(getResources().getStringArray(R.array.TextMessages), imgsId, imgsBgId);
 
             mSampleAdapter.addInitialContent();
         }
@@ -78,6 +85,7 @@ public class RecycleFragment extends Fragment {
         mRecycle = view.findViewById(R.id.recycle);
         mRecycle.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mRecycle.setAdapter(mSampleAdapter);
+        mRecycle.addItemDecoration(new CardDecoration());
     }
 
     /**

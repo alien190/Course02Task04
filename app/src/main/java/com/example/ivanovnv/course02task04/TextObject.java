@@ -10,14 +10,16 @@ package com.example.ivanovnv.course02task04;
 public class TextObject extends ContentObject{
 
     private String mText;
+    private int mId;
 
     /**
      * constructor
      * @param mText - string to store
      */
-    public TextObject(String mText) {
+    public TextObject(String mText, int mId) {
         super();
         this.mText = mText;
+        this.mId = mId;
     }
 
     /**
@@ -26,5 +28,13 @@ public class TextObject extends ContentObject{
      */
     public String getText() {
         return mText;
+    }
+
+    /**
+     * return stored image id for background
+     * @return
+     */
+    public int getId() {
+        return mId;
     }
 }

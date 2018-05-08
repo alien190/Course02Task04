@@ -26,6 +26,7 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
 
     private String[] mTextRes = null;
     private int[] mImgRes = null;
+    private int[] mBgRes = null;
     private Random mRandom = new Random();
 
     private ArrayList<Object> mContent = new ArrayList<>();
@@ -134,7 +135,7 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
             switch (typeOfContent) {
                 case TEXT: {
                     if(mTextRes!= null) {
-                        retObject = new TextObject(mTextRes[mRandom.nextInt(mTextRes.length)]);
+                        retObject = new TextObject(mTextRes[mRandom.nextInt(mTextRes.length)], mBgRes[mRandom.nextInt(mBgRes.length)]);
                     }
 
                     break;
@@ -152,7 +153,7 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
                         int index = mRandom.nextInt(mImgRes.length + mTextRes.length);
                         if(index >= mImgRes.length) {
                             index -= mImgRes.length;
-                            retObject = new TextObject(mTextRes[index]);
+                            retObject = new TextObject(mTextRes[index], mBgRes[mRandom.nextInt(mBgRes.length)]);
                         } else {
                             retObject = new ImageObject(mImgRes[index]);
                         }
@@ -168,12 +169,15 @@ public class SampleAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder
      * @param strings - array of strings for TextItem's
      * @param ints - array of drawable.id for ImageItems's;
      */
-    public void setResources(String[] strings, int[] ints){
+    public void setResources(String[] strings, int[] ints, int[] intsBg){
         if(mTextRes != null) {mTextRes = null;}
         mTextRes = strings;
 
         if(mImgRes != null) {mImgRes = null;}
         mImgRes = ints;
+
+        if(mBgRes != null) {mBgRes = null;}
+        mBgRes = intsBg;
     }
 
 

@@ -16,4 +16,10 @@
         <item>@drawable/sample_image05</item>
         <item>@drawable/sample_image06</item>
     </integer-array>
+
+    <integer-array name="BgImages">
+        <item>@drawable/bg_message01</item>
+        <item>@drawable/bg_message02</item>
+        <item>@drawable/bg_message03</item>
+    </integer-array>
 </resources>

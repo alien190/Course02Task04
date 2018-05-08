@@ -1,5 +1,6 @@
 package com.example.ivanovnv.course02task04;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import android.widget.TextView;
 public class TextViewHolder extends BaseViewHolder {
 
     private TextView mTextView;
+    private View mBgLayaut;
 
 
     /**
@@ -22,6 +24,7 @@ public class TextViewHolder extends BaseViewHolder {
     public TextViewHolder(View itemView) {
         super(itemView);
         mTextView = itemView.findViewById(R.id.tv_item);
+        mBgLayaut = itemView.findViewById(R.id.cl_background);
     }
 
     /**
@@ -31,5 +34,7 @@ public class TextViewHolder extends BaseViewHolder {
     public void bind(final TextObject textObject){
         super.bind(textObject);
         mTextView.setText(textObject.getText());
+        mBgLayaut.setBackground(ContextCompat.getDrawable(itemView.getContext(), textObject.getId()));
+
     }
 }
